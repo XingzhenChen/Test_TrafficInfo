@@ -2,8 +2,8 @@ name: Auto Generate Image
 
 on:
   schedule:
-    - cron: '0 5,8,11,14 * * *'  # 每5分钟运行一次，基于 UTC 时间
-
+    - cron: '0 5,8,11,14 * * *'  # 每天UTC时间的 5:00, 8:00, 11:00, 14:00（对应美东时间的 0:00, 3:00, 6:00, 9:00）
+  workflow_dispatch:  # 允许手动触发工作流
 jobs:
   generate_image:
     runs-on: ubuntu-latest
