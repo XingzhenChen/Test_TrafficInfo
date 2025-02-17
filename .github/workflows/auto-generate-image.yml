@@ -2,7 +2,7 @@ name: Auto Generate Image
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # 每5分钟运行一次，基于 UTC 时间
+    - cron: '0 5,8,11,14 * * *'  # 每5分钟运行一次，基于 UTC 时间
 
 jobs:
   generate_image:
