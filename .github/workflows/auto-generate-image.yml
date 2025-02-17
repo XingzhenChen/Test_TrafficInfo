@@ -2,22 +2,22 @@ name: Auto Generate Image
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # 每5分钟运行一次
+    - cron: '*/5 * * * *'  # 每5分钟运行一次，基于 UTC 时间
 
 jobs:
   generate_image:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 需要写入权限来推送图片到仓库
+      contents: write  # 给 Actions 写入权限
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # 拉取仓库代码
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.9'  # 设置 Python 环境
 
       - name: Install dependencies
         run: pip install pillow  # 安装 Pillow 库
@@ -29,7 +29,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add generated_image_*.png
-          git commit -m "Auto-generated image with timestamp"
-          git pull --rebase  # 拉取最新的更改，避免冲突
+          git add generated_image_*.png  # 添加图片
+          git commit -m "Auto-generated image with timestamp" || echo "No changes to commit"
+          git pull --rebase  # 拉取最新的代码，避免冲突
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
