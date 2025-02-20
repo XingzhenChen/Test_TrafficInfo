@@ -24,7 +24,7 @@ jobs:
           pip3 install pandas matplotlib PyGithub pillow
 
       - name: Run image generation script
-        # run: python3 GithubTrafficPlot.py ${{ secrets.<GITHUBTRAFFICPLOT> }} RepoName.txt Data.csv   # 执行 Python 脚本，生成图片
+        run: python3 GithubTrafficPlot.py ${{ secrets.<GITHUBTRAFFICPLOT> }} RepoName.txt Data.csv   # 执行 Python 脚本，生成图片
 
       - name: Commit and push generated image
         run: |
