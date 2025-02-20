@@ -189,7 +189,7 @@ def read_repositories_names(repositories_file_path):
 """
   Main function
 """
-def run_gitratra(token, data_path, repositories_file_path):
+def run_gitratra(token, data_folder, repositories_file_path):
   print("Authentification...")
   g = None
   split_token = token.split(":")
@@ -199,19 +199,22 @@ def run_gitratra(token, data_path, repositories_file_path):
     g = Github(split_token[1], getpass.getpass())
   repositories = read_repositories_names(repositories_file_path)
   # traffic_data = get_traffic_data("/home/xingzhen/AAA_Project_ProMax/GitHub_traffic_monitor/GiTraTra/output.txt")
-  traffic_data = {}
+  
   for repo_name in repositories:
+    traffic_data = {}
     repo = g.get_user().get_repo(repo_name)
     update_repo(repo, traffic_data)
-  print_summary(traffic_data)
-  write_data(traffic_data, data_path)
+    print_summary(traffic_data)
+    data_file = os.path.join("./", f"{repo_name}.csv")
+    write_data(traffic_data, data_file)
+    ReadPlot(repo_name, data_file)
 
 def print_error_syntax():
     print("Possible syntaxes:")
     print("python run_generax.py token:<github_token> <repositories_list_file> <output_file>.")
     print("python run_generax.py username:<username> <repositories_list_file> <output_file>.")
 
-def ReadPlot(csv_path):
+def ReadPlot(repo_name, csv_path):
   # 从CSV读取数据并画图
   # 读取CSV文件
   df = pd.read_csv(csv_path)
@@ -246,7 +249,9 @@ def ReadPlot(csv_path):
   plt.tight_layout()
 
   # 保存图表为PNG文件
-  plt.savefig('TrafficPlot.png')
+  # 生成保存图片的路径
+  plot_path = os.path.join("./", f"{repo_name}_TrafficPlot.png")
+  plt.savefig(plot_path)
 
   # 显示图表
   plt.show()
@@ -262,6 +267,6 @@ if (__name__== "__main__"):
     print_error_syntax()
     sys.exit(1)
   repositories_file_path = sys.argv[2]
-  data_path = sys.argv[3]
-  run_gitratra(token, data_path, repositories_file_path)
-  ReadPlot(data_path)
+  data_folder = sys.argv[3]
+  run_gitratra(token, data_folder, repositories_file_path)
+  
