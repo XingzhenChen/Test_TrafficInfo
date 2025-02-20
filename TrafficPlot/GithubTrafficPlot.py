@@ -235,7 +235,7 @@ def ReadPlot(repo_name, csv_path):
   plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
 
   # 旋转X轴标签以提高可读性
-  plt.xticks(rotation=45)
+  plt.xticks(rotation=46)
 
   # 设置标题和标签
   plt.title('Clones and Views Over Time')
