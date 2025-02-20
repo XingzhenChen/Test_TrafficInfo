@@ -20,10 +20,11 @@ jobs:
           python-version: '3.9'  # 设置 Python 环境
 
       - name: Install dependencies
-        run: pip install pillow  # 安装 Pillow 库
+        run: |
+          pip3 install pandas matplotlib PyGithub pillow
 
       - name: Run image generation script
-        run: python generate_image.py  # 执行 Python 脚本，生成图片
+        # run: python3 GithubTrafficPlot.py token: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   # 执行 Python 脚本，生成图片
 
       - name: Commit and push generated image
         run: |
