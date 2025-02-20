@@ -37,6 +37,6 @@ jobs:
           
           git add *_TrafficPlot.png TrafficPlot/*.csv  # 添加图片
           git commit -m "Auto-generated TrafficPlot.png and PlotData.csv" || echo "No changes to commit"
-          git pull --rebase --autostash # 拉取最新的代码，避免冲突
+          git pull --rebase # 拉取最新的代码，避免冲突
           
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
