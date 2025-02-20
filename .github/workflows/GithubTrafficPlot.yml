@@ -34,12 +34,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # 强制覆盖 TrafficPlot.png 文件
-          if [ -f TrafficPlot.png ]; then
-            rm TrafficPlot.png  # 如果文件存在，先删除
-          fi
+          git add TrafficPlot.png .github/workflows/PlotData.csv  # 添加图片
+          git commit -m "Auto-generated TrafficPlot.png and PlotData.csv" || echo "No changes to commit"
           
-          git add TrafficPlot.png  # 添加图片
-          git commit -m "Auto-generated TrafficPlot.png" || echo "No changes to commit"
           git pull --rebase  # 拉取最新的代码，避免冲突
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
