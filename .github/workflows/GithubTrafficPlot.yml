@@ -35,7 +35,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase  # 拉取最新的代码，避免冲突
           
-          git add *_TrafficPlot.png TrafficPlot/*_PlotData.csv  # 添加图片
+          git add *_TrafficPlot.png TrafficPlot/*.csv  # 添加图片
           git commit -m "Auto-generated TrafficPlot.png and PlotData.csv" || echo "No changes to commit"
           
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
