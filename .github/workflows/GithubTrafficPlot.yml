@@ -19,6 +19,9 @@ jobs:
         with:
           python-version: '3.9'  # 设置 Python 环境
 
+      - name: Install PyGithub version 2.5.0
+        run: pip install PyGithub==2.5.0  # 安装指定版本
+
       - name: Install dependencies
         run: |
           pip3 install pandas matplotlib PyGithub pillow
