@@ -246,7 +246,7 @@ def ReadPlot(csv_path):
   plt.tight_layout()
 
   # 保存图表为PNG文件
-  plt.savefig('line_chart.png')
+  plt.savefig('TrafficPlot.png')
 
   # 显示图表
   plt.show()
