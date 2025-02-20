@@ -12,46 +12,46 @@ import matplotlib.dates as mdates
 
 
 def write_data(traffic_data, data_file_path):
-    # 定义 CSV 文件列名
+    
     csv_columns = ["Date", "Clones", "Views"]
 
-    # 读取已有数据（如果文件存在）
+    
     if os.path.exists(data_file_path):
         df = pd.read_csv(data_file_path)
     else:
-        df = pd.DataFrame(columns=csv_columns)  # 创建空 DataFrame
+        df = pd.DataFrame(columns=csv_columns) 
 
-    # 遍历 traffic_data，收集所有日期的 clones 和 views
+    
     new_data = {}
 
     for repository_name, repository_data in traffic_data.items():
-        # 处理 clones
+        #  clones
         if "clones" in repository_data:
             for timestamp, metrics in repository_data["clones"].items():
                 date_str = timestamp.strftime('%Y-%m-%d')
                 if date_str not in new_data:
-                    new_data[date_str] = [0, 0]  # 初始化
-                new_data[date_str][0] = metrics[0]  # 记录 Clones
+                    new_data[date_str] = [0, 0]  
+                new_data[date_str][0] = metrics[0]  
 
-        # 处理 views
+        #  views
         if "views" in repository_data:
             for timestamp, metrics in repository_data["views"].items():
                 date_str = timestamp.strftime('%Y-%m-%d')
                 if date_str not in new_data:
-                    new_data[date_str] = [0, 0]  # 初始化
-                new_data[date_str][1] = metrics[0]  # 记录 Views
+                    new_data[date_str] = [0, 0] 
+                new_data[date_str][1] = metrics[0] 
 
-    # 更新 DataFrame
+    
     for date, (clones, views) in new_data.items():
         if date in df["Date"].values:
             df.loc[df["Date"] == date, ["Clones", "Views"]] = [clones, views]
         else:
             df = pd.concat([df, pd.DataFrame([[date, clones, views]], columns=csv_columns)], ignore_index=True)
 
-    # 按日期排序
+
     df = df.sort_values("Date")
 
-    # 写回 CSV
+
     df.to_csv(data_file_path, index=False)
 
 
@@ -198,7 +198,7 @@ def run_gitratra(token, data_folder, repositories_file_path):
   else:
     g = Github(split_token[1], getpass.getpass())
   repositories = read_repositories_names(repositories_file_path)
-  # traffic_data = get_traffic_data("/home/xingzhen/AAA_Project_ProMax/GitHub_traffic_monitor/GiTraTra/output.txt")
+
   
   for repo_name in repositories:
     traffic_data = {}
@@ -215,45 +215,42 @@ def print_error_syntax():
     print("python run_generax.py username:<username> <repositories_list_file> <output_file>.")
 
 def ReadPlot(repo_name, csv_path):
-  # 从CSV读取数据并画图
-  # 读取CSV文件
+  
   df = pd.read_csv(csv_path)
 
-  # 确保'年-月-日'格式的日期正确解析
+  
   df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
 
-  # 创建画布
+
   plt.figure(figsize=(10, 6))
 
-  # 绘制Clones和Views的折线图
+
   plt.plot(df['Date'], df['Clones'], label='Clones', marker='o', linestyle='-')
   plt.plot(df['Date'], df['Views'], label='Views', marker='s', linestyle='-')
 
-  # 设置X轴刻度间隔为每天
+
   plt.gca().xaxis.set_major_locator(mdates.DayLocator())
-  # 设置X轴标签格式
+
   plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
 
-  # 旋转X轴标签以提高可读性
+
   plt.xticks(rotation=46)
 
-  # 设置标题和标签
+
   plt.title('Clones and Views Over Time')
   plt.xlabel('Date')
   plt.ylabel('Count')
 
-  # 显示图例
+
   plt.legend()
 
-  # 自动调整布局，防止标签重叠
+
   plt.tight_layout()
 
-  # 保存图表为PNG文件
-  # 生成保存图片的路径
+
   plot_path = os.path.join("./", f"{repo_name}_TrafficPlot.png")
   plt.savefig(plot_path)
 
-  # 显示图表
   plt.show()
 
 
