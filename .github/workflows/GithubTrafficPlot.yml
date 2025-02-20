@@ -28,14 +28,14 @@ jobs:
           pip3 install pandas matplotlib PyGithub pillow
 
       - name: Run image generation script
-        run: python3 .github/workflows/GithubTrafficPlot.py ${{ secrets.GITHUBTRAFFICPLOT }} .github/workflows/RepoName.txt .github/workflows/PlotData.csv   # 执行 Python 脚本，生成图片
+        run: python3 TrafficPlot/GithubTrafficPlot.py ${{ secrets.GITHUBTRAFFICPLOT }} TrafficPlot/RepoName.txt TrafficPlot/PlotData.csv   # 执行 Python 脚本，生成图片
 
       - name: Commit and push generated image
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          git add TrafficPlot.png .github/workflows/PlotData.csv  # 添加图片
+          git add TrafficPlot.png TrafficPlot/PlotData.csv  # 添加图片
           git commit -m "Auto-generated TrafficPlot.png and PlotData.csv" || echo "No changes to commit"
           
           git pull --rebase  # 拉取最新的代码，避免冲突
