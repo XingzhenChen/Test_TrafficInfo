@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # 给 Actions 写入权限
+      workflows: write  # 允许修改工作流文件
 
     steps:
       - name: Checkout repository
