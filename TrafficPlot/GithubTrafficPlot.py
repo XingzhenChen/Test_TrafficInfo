@@ -205,7 +205,7 @@ def run_gitratra(token, data_folder, repositories_file_path):
     repo = g.get_user().get_repo(repo_name)
     update_repo(repo, traffic_data)
     print_summary(traffic_data)
-    data_file = os.path.join("./", f"{repo_name}.csv")
+    data_file = os.path.join(data_folder, f"{repo_name}.csv")
     write_data(traffic_data, data_file)
     ReadPlot(repo_name, data_file)
 
