@@ -1,4 +1,4 @@
-name: Auto Generate Image
+name: TrafficPlot Auto Generation
 
 on:
   schedule:
