@@ -2,25 +2,25 @@ name: TrafficPlot Auto Generation
 
 on:
   schedule:
-    - cron: '0 * * * *'  # 每天UTC时间的 5:00, 8:00, 11:00, 14:00（对应美东时间的 0:00, 3:00, 6:00, 9:00）
-  workflow_dispatch:  # 允许手动触发工作流
+    - cron: '0 * * * *'  # 5:00, 8:00, 11:00, 14:00 UTC (0:00, 3:00, 6:00, 9:00 EST) every day.
+  workflow_dispatch:  # Allow manual triggering of workflows
 jobs:
   generate_image:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 给 Actions 写入权限
+      contents: write  
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # 拉取仓库代码
+        uses: actions/checkout@v3  
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'  # 设置 Python 环境
+          python-version: '3.9' 
 
       - name: Install PyGithub version 2.5.0
-        run: pip install PyGithub==2.5.0  # 安装指定版本
+        run: pip install PyGithub==2.5.0  
 
       - name: Install dependencies
         run: |
@@ -35,8 +35,8 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           
-          git add -f ./*_TrafficPlot.png ./TrafficPlot/*.csv  # 添加图片
+          git add -f ./*_TrafficPlot.png ./TrafficPlot/*.csv  
           git commit -m "Auto-generated TrafficPlot.png and PlotData.csv" || echo "No changes to commit"
-          git pull --rebase # 拉取最新的代码，避免冲突
+          git pull --rebase 
           
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
